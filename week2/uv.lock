@@ -1,0 +1,37 @@
+version = 1
+revision = 3
+requires-python = ">=3.11"
+
+[manifest]
+members = [
+    "day-6",
+    "day-7",
+    "day-8",
+    "day-9",
+    "week2",
+]
+
+[[package]]
+name = "day-6"
+version = "0.1.0"
+source = { virtual = "day_6" }
+
+[[package]]
+name = "day-7"
+version = "0.1.0"
+source = { virtual = "day_7" }
+
+[[package]]
+name = "day-8"
+version = "0.1.0"
+source = { virtual = "day_8" }
+
+[[package]]
+name = "day-9"
+version = "0.1.0"
+source = { virtual = "day_9" }
+
+[[package]]
+name = "week2"
+version = "0.1.0"
+source = { virtual = "." }
