@@ -1,31 +1,26 @@
-from dotenv import load_dotenv
-from pathlib import Path
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 from groq import Groq
+import numpy as np
+from sentence_transformers import SentenceTransformer
 
-# Anchor .env to this file's folder so it loads no matter where the script is run from
-env_path = Path(__file__).resolve().parent / ".env"
-load_dotenv(dotenv_path=env_path)
+def cosine_similarity(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
-my_api_key = os.getenv("GROQ_API_KEY")
+load_dotenv()
+groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+model = SentenceTransformer('all-MiniLM-L6-v2')# LENGTH  == 784 
+text = "Machine Learning is fun"
 
-if not my_api_key:
-    raise ValueError("GROQ_API_KEY environment variable is not set.")
+# res = model.encode(text)
+# embedding  = model.encode(text)
+# print(f"Embedding shape: {embedding.shape}")
+# print(f"Embedding: {embedding[:10]}...")
 
-client = Groq(api_key=my_api_key)
+t1 = " There are 24 paid leave days available" 
+t2 = " There are 24 cars in my garage"
 
-model = "llama-3.3-70b-versatile"  # fixed: removed stray space
-role = "user"
-prompt = "Explain How Internet Works?"
-
-message = {
-    "role": role,
-    "content": prompt
-}
-messages = [message]
-
-response1 = client.chat.completions.create(model=model, messages=messages)
-print(response1)
-
-answer = response1.choices[0].message.content
-print("Answer: ", answer)
+v1 = model.encode(t1) # Print first 10 elements of the embedding
+v2 = model.encode(t2)
+print(f"Similarity: {cosine_similarity(v1, v2)}")
